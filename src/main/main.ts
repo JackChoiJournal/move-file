@@ -111,6 +111,21 @@ const createWindow = async () => {
 app
   .whenReady()
   .then(() => {
+    // Adding security header before sending back the response
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+      callback({
+        // Add these headers with the response
+        responseHeaders: {
+          ...details.responseHeaders,
+          // Only execute script from current website or none
+          'Content-Security-Policy': ['default-src \'self\'; script-src \'self\' \'unsafe-inline\'; style-src \'self\' \'unsafe-inline\'; font-src \'self\'; frame-ancestors \'none\';'],
+          // Deny frame
+          'X-Frame-Options': ['DENY'],
+        },
+      });
+    });
+  })
+  .then(() => {
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
