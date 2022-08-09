@@ -258,3 +258,5 @@ dist
 ## S/MIME message
 *.smime
 
+## npm
+package-lock.json
