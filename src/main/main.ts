@@ -14,6 +14,7 @@ import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import {resolveHtmlPath} from './util';
+import {read, WatcherHandler} from "./watcher/watcher";
 
 declare global {
     var shared: {
@@ -135,7 +136,12 @@ app
             });
         });
     })
-    .then(() => {
+    .then(async () => {
+        let tasks = await read();
+        for (let task of tasks.data) {
+            WatcherHandler.start(task)
+        }
+
         global.shared.watcherHandler = WatcherHandler;
         global.shared.appWindow = mainWindow;
 
