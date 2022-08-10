@@ -14,9 +14,18 @@ import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import {resolveHtmlPath} from './util';
-import '../event/app'; // Must include. It is the app event that will be invoked.
-import '../event/ipcMain'; // Must include. It is the ipcMain event that will be invoked.
-import './watcher/watcher';
+
+declare global {
+    var shared: {
+        appWindow: BrowserWindow | undefined | null;
+        watcherHandler: WatcherHandler | undefined | null;
+    };
+}
+
+global.shared = {
+    appWindow: undefined,
+    watcherHandler: undefined,
+}
 
 class AppUpdater {
     constructor() {
@@ -127,7 +136,11 @@ app
         });
     })
     .then(() => {
+        global.shared.watcherHandler = WatcherHandler;
+        global.shared.appWindow = mainWindow;
+
         createWindow();
+
         app.on('activate', () => {
             // On macOS it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
