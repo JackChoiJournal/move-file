@@ -3,7 +3,7 @@ import {FSWatcher} from "fs";
 export declare type TTask = {
     "source": string;
     "extension"?: string[];
-    "file"?: string[];
+    "files"?: string[];
     "destination": string;
 }
 

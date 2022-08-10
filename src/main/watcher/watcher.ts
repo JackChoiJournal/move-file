@@ -36,7 +36,7 @@ export class WatcherHandler {
             WatcherHandler.watchers[task.source]?.watcher.on('change', async (evt: string, file: string) => {
                 let fileObj = path.parse(file);
 
-                if (evt === 'update' && (task.extension?.includes(fileObj.ext) || task.file?.includes(fileObj.base))) {
+                if (evt === 'update' && (task.extension?.includes(fileObj.ext) || task.files?.includes(fileObj.base))) {
                     await moveFile(file, task.destination);
                 }
             });
