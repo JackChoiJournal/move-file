@@ -13,6 +13,8 @@ import {app, BrowserWindow, session, shell} from 'electron';
 import {autoUpdater} from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+import './event/app'; // Must include. It is the app event that will be invoked.
+import './event/ipcMain'; // Must include. It is the ipcMain event that will be invoked.
 import {resolveHtmlPath} from './util';
 import {read, WatcherHandler} from "./watcher/watcher";
 
