@@ -32,7 +32,6 @@ export function ListItem({item}: TListItemProps) {
 
     return (
         <div
-            key={Math.random().toString()}
             onClick={onClick}
             className={`px-6 py-4 whitespace-pre-line hover:bg-gray-600 hover:text-gray-200 ${isActive ? "bg-gray-400" : ""}`}
         >
@@ -50,7 +49,7 @@ export function CardList({items, title}: TCardListProps) {
                 <div className="bg-white shadow overflow-hidden rounded-md">
                     <div className="divide-y divide-gray-200">
                         {items.map((item) => (
-                            <ListItem item={item}/>
+                            <ListItem key={item.toString()} item={item}/>
                         ))}
                     </div>
                 </div>
