@@ -21,20 +21,20 @@ const port = process.env.PORT || 1212;
 const manifest = path.resolve(webpackPaths.dllPath, 'renderer.json');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const requiredByDLLConfig = module.parent!.filename.includes(
-  'webpack.config.renderer.dev.dll'
+    'webpack.config.renderer.dev.dll'
 );
 
 /**
  * Warn if the DLL is not built
  */
 if (
-  !requiredByDLLConfig &&
-  !(fs.existsSync(webpackPaths.dllPath) && fs.existsSync(manifest))
+    !requiredByDLLConfig &&
+    !(fs.existsSync(webpackPaths.dllPath) && fs.existsSync(manifest))
 ) {
   console.log(
-    chalk.black.bgYellow.bold(
-      'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
-    )
+      chalk.black.bgYellow.bold(
+          'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
+      )
   );
   execSync('npm run postinstall');
 }
@@ -76,12 +76,32 @@ const configuration: webpack.Configuration = {
             },
           },
           'sass-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [require('tailwindcss'), require('autoprefixer')],
+              },
+            },
+          },
         ],
         include: /\.module\.s?(c|a)ss$/,
       },
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [require('tailwindcss'), require('autoprefixer')],
+              },
+            },
+          },
+        ],
         exclude: /\.module\.s?(c|a)ss$/,
       },
       // Fonts
@@ -98,8 +118,8 @@ const configuration: webpack.Configuration = {
   },
   plugins: [
     ...(requiredByDLLConfig
-      ? []
-      : [
+        ? []
+        : [
           new webpack.DllReferencePlugin({
             context: webpackPaths.dllPath,
             manifest: require(manifest),
@@ -168,25 +188,19 @@ const configuration: webpack.Configuration = {
         shell: true,
         stdio: 'inherit',
       })
-        .on('close', (code: number) => process.exit(code!))
-        .on('error', (spawnError) => console.error(spawnError));
+          .on('close', (code: number) => process.exit(code!))
+          .on('error', (spawnError) => console.error(spawnError));
 
       console.log('Starting Main Process...');
-      let args = ['run', 'start:main'];
-      if (process.env.MAIN_ARGS) {
-        args = args.concat(
-          ['--', ...process.env.MAIN_ARGS.matchAll(/"[^"]+"|[^\s"]+/g)].flat()
-        );
-      }
-      spawn('npm', args, {
+      spawn('npm', ['run', 'start:main'], {
         shell: true,
         stdio: 'inherit',
       })
-        .on('close', (code: number) => {
-          preloadProcess.kill();
-          process.exit(code!);
-        })
-        .on('error', (spawnError) => console.error(spawnError));
+          .on('close', (code: number) => {
+            preloadProcess.kill();
+            process.exit(code!);
+          })
+          .on('error', (spawnError) => console.error(spawnError));
       return middlewares;
     },
   },
