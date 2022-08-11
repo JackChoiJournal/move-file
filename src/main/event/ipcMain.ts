@@ -1,4 +1,5 @@
 import {TTask} from "../watcher/types";
+import {getDirectories, getDrives} from "../drive/tools";
 
 const {ipcMain} = require('electron');
 
@@ -10,4 +11,12 @@ ipcMain.handle('get-tasks', async () => {
     }
 
     return tasks;
+});
+
+ipcMain.handle('get-drives', () => {
+   return getDrives();
+});
+
+ipcMain.handle('get-directories', (_, drive:string)=>{
+    return getDirectories(drive);
 });

@@ -5,6 +5,8 @@ declare global {
   interface Window {
     api: {
       getTasks(): Promise<TTask[]>;
+      getDrives(): Promise<string[]>;
+      getDirectories(drive: string): Promise<string[]>;
     };
   }
 }
