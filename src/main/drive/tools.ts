@@ -1,6 +1,6 @@
 import * as util from "util";
-const {access, readdir} = require("fs/promises");
-const {constants, Dirent} = require("fs");
+import {access, readdir} from "fs/promises";
+import {constants, Dirent} from "fs";
 let exec = require('child_process').exec;
 exec = util.promisify(exec);
 
@@ -33,7 +33,7 @@ export let getDirectories = async function (drive: string, {
     readable,
     writable
 }: { readable?: boolean, writable?: boolean } = {}): Promise<string[]> {
-    let files: typeof Dirent[] = [];
+    let files: Dirent[] = [];
     let directories: string[] = [];
 
     files = await readdir(drive, {withFileTypes: true});
