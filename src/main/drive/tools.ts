@@ -29,14 +29,14 @@ export let getDrives = async function (): Promise<string[]> {
     return <string[]>stdout.match(/(\w:)/g) ?? [];
 }
 
-export let getDirectories = async function (drive: string, {
+export let getDirectories = async function (path: string, {
     readable,
     writable
 }: { readable?: boolean, writable?: boolean } = {}): Promise<string[]> {
     let files: Dirent[] = [];
     let directories: string[] = [];
 
-    files = await readdir(drive, {withFileTypes: true});
+    files = await readdir(path, {withFileTypes: true});
 
     directories = files.filter(file => file.isDirectory()).map(file => file.name);
 
