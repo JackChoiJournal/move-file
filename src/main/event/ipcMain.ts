@@ -20,3 +20,7 @@ ipcMain.handle('get-drives', () => {
 ipcMain.handle('get-directories', (_, drive:string)=>{
     return getDirectories(drive);
 });
+
+ipcMain.handle('get-directory-tree', (_, drive:string, option: {depth:number})=>{
+    return getDirectoryTree(drive, option);
+});

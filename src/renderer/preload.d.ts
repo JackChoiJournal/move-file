@@ -7,6 +7,7 @@ declare global {
       getTasks(): Promise<TTask[]>;
       getDrives(): Promise<string[]>;
       getDirectories(drive: string): Promise<string[]>;
+      getDirectoryTree(drive: string, option?:{depth:number}): Promise<DirectoryTree | undefined>;
     };
   }
 }
