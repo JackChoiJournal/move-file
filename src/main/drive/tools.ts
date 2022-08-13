@@ -29,7 +29,7 @@ export let isReadable = async function (directory: string): Promise<boolean> {
 
 export let getDrives = async function (): Promise<string[]> {
     let {stdout} = await exec("wmic logicaldisk get name") as { stdout: string };
-    return <string[]>stdout.match(/(\w:)/g) ?? [];
+    return stdout.match(/(\w:)/g)?.map(drive => drive.replace(/:$/g, ":\\")) ?? [];
 }
 
 export let getDirectories = async function (path: string, {
