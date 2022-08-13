@@ -95,7 +95,9 @@ const Home = () => {
 
             <Column>
                 <CardList
-                    items={[getCurrentTaskDestination()]}
+                    items={getCurrentTaskDestination() !== ""
+                        ? [getCurrentTaskDestination()]
+                        : []}
                     title={"Move To"}
                 />
             </Column>
