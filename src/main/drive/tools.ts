@@ -1,5 +1,6 @@
 import * as util from "util";
 import {access, readdir} from "fs/promises";
+import path from "path";
 import {constants, Dirent} from "fs";
 import {DirectoryTree, GetDirectoryTree} from "../../@types/types";
 
@@ -55,4 +56,42 @@ export let getDirectories = async function (path: string, {
     }
 
     return directories;
+}
+
+
+export let getDirectoryTree: GetDirectoryTree = async function (parentPath, option = {depth: 5}, currentDepth = 0): Promise<DirectoryTree | undefined> {
+    if (Number.isInteger(option.depth) && currentDepth > option.depth) {
+        return;
+    }
+
+    let directories: DirectoryTree = {
+        id: parentPath,
+        name: path.basename(parentPath) === '' ? parentPath : path.basename(parentPath)
+    } as DirectoryTree;
+
+    try {
+        if (parentPath === 'E:') {
+            console.log();
+        }
+        let files = await readdir(parentPath, {withFileTypes: true})
+        let children: DirectoryTree[] = [];
+        for (let file of files) {
+            if (file.isDirectory()) {
+                let child = await getDirectoryTree(parentPath + "\\" + file.name, option, currentDepth + 1);
+
+                if (child) {
+                    children.push(child);
+                }
+            }
+        }
+
+        if (children.length > 0) {
+            directories.children = children;
+        }
+
+
+        return directories;
+    } catch (e) {
+        return;
+    }
 }
