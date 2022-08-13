@@ -3,6 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import React from "react";
 import {createPortal} from "react-dom";
+import {RenderTree} from "../../../@types/types";
 import {Backdrop} from "./Backdrop";
 
 interface RenderTree {

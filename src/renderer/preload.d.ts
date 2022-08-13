@@ -1,5 +1,5 @@
 import { Channels } from 'main/preload';
-import {TTask} from "../main/watcher/types";
+import {DirectoryTree, TTask} from "../@types/types";
 
 declare global {
   interface Window {

@@ -1,6 +1,8 @@
 import * as util from "util";
 import {access, readdir} from "fs/promises";
 import {constants, Dirent} from "fs";
+import {DirectoryTree, GetDirectoryTree} from "../../@types/types";
+
 let exec = require('child_process').exec;
 exec = util.promisify(exec);
 

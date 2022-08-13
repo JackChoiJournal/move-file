@@ -1,6 +1,6 @@
-import {TTask} from "../watcher/types";
-import {getDirectories, getDrives} from "../drive/tools";
+import {TTask} from "../../@types/types";
 
+import {getDirectories, getDirectoryTree, getDrives} from "../drive/tools";
 const {ipcMain} = require('electron');
 
 ipcMain.handle('get-tasks', async () => {

@@ -4,7 +4,7 @@ import watch from 'node-watch';
 import {access, mkdir, rename, readFile, writeFile} from "fs/promises";
 import {constants} from "fs";
 import {getAssetPath} from "../utilities/path";
-import {TJsonTasks, TTask, TWatchers} from "./types";
+import {TJsonTasks, TTask, TWatchers} from "../../@types/types";
 
 export class WatcherHandler {
     static instance: WatcherHandler;

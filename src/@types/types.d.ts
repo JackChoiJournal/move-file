@@ -29,3 +29,19 @@ export declare type TWatchers = {
         task: TTask;
     };
 }
+
+export declare type DirectoryTree = {
+    id: string,
+    name?: string;
+    children?: DirectoryTree[];
+}
+
+export declare interface GetDirectoryTree {
+    (parentPath: string, option?: { depth: number }, currentDepth?: number): Promise<DirectoryTree | undefined>
+}
+
+export declare interface RenderTree {
+    id: string;
+    name: string;
+    children?: RenderTree[];
+}

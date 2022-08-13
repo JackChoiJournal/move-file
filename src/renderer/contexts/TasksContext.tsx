@@ -1,5 +1,5 @@
 import {createContext, useEffect, useState} from "react";
-import {TTask} from "../../main/watcher/types";
+import {TTask} from "../../@types/types";
 
 interface ITasksContextInterface {
     tasks: TTask[];
