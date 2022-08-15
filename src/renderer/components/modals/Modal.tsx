@@ -29,10 +29,9 @@ function useMemoryState(key: string, initialState: unknown | Function) {
     return [state, onChange];
 }
 
-let directoryTreeCache: RenderTree[] = [];
-
 export function DirectoryListModal() {
     let [isLoaded, setIsLoaded] = useMemoryState('isLoaded', false);
+    let [directoryTreeCache, setDirectoryTreeCache] = useMemoryState('directoryTreeCache', []);
 
     function onError() {
         directoryTreeCache = [
@@ -44,30 +43,28 @@ export function DirectoryListModal() {
     }
 
     useEffect(() => {
-        if (directoryTreeCache.length === 0) {
-            window.api.getDrives()
-                .then(async drives => {
-                    if (drives.length === 0) {
-                        throw new Error("No drives found");
-                    }
+        window.api.getDrives()
+            .then(async drives => {
+                if (drives.length === 0) {
+                    throw new Error("No drives found");
+                }
 
-                    let directories: RenderTree[] = [];
-                    for (let drive of drives) {
-                        directories.push(await window.api.getDirectoryTree(drive, {depth: 3}) as unknown as RenderTree);
-                    }
+                let directories: RenderTree[] = [];
+                for (let drive of drives) {
+                    directories.push(await window.api.getDirectoryTree(drive, {depth: 3}) as unknown as RenderTree);
+                }
 
-                    directoryTreeCache = directories;
-                })
-                .catch((e) => {
-                    // TODO Add log if needed
-                    console.log(e);
-                    onError();
-                })
-                .finally(() => {
-                    setIsLoaded(true);
-                })
-        }
-    }, []);
+                setDirectoryTreeCache(directories);
+            })
+            .catch((e) => {
+                // TODO Add log if needed
+                console.log(e);
+                onError();
+            })
+            .finally(() => {
+                setIsLoaded(true);
+            })
+    }, [isLoaded]);
 
     function renderTree(tree: RenderTree[]) {
         return tree.map(({id, name, children}) => (
