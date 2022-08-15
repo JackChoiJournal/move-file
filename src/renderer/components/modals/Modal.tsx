@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {createPortal} from "react-dom";
 import {RenderTree} from "../../../@types/types";
 import {Backdrop} from "./Backdrop";
+import {RefreshButton} from "../Button";
 
 const memoryState: {
     [key: string]: any
@@ -78,16 +79,26 @@ export function DirectoryListModal() {
         ));
     }
 
+
+    function onRefresh() {
+        setIsLoaded(false);
+    }
+
     let content = isLoaded
         ? (
-            <TreeView
-                aria-label="file system navigator"
-                defaultCollapseIcon={<ExpandMoreIcon/>}
-                defaultExpandIcon={<ChevronRightIcon/>}
-                sx={{width: '100%', height: '100%'}}
-            >
-                {renderTree(directoryTreeCache)}
-            </TreeView>
+            <>
+                <TreeView
+                    aria-label="file system navigator"
+                    defaultCollapseIcon={<ExpandMoreIcon/>}
+                    defaultExpandIcon={<ChevronRightIcon/>}
+                    sx={{width: '100%', height: '100%'}}
+                >
+                    {renderTree(directoryTreeCache)}
+                </TreeView>
+                <div className="flex justify-around w-full">
+                    <RefreshButton title="Refresh" onClick={onRefresh} />
+                </div>
+            </>
         )
         : <CircularProgress/>
 
@@ -98,7 +109,7 @@ export function DirectoryListModal() {
             bg-white shadow-lg shadow-gray-300
             ring-[5px] ring-slate-50/70 rounded-lg
             flex justify-center items-center
-            p-10 overflow-auto"
+            p-10 overflow-auto flex flex-col"
         >
             {content}
         </div>
