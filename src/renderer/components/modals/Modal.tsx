@@ -91,7 +91,7 @@ export function DirectoryListModal() {
                     aria-label="file system navigator"
                     defaultCollapseIcon={<ExpandMoreIcon/>}
                     defaultExpandIcon={<ChevronRightIcon/>}
-                    sx={{width: '100%', height: '100%'}}
+                    sx={{width: '100%', height: '100%', 'overflowY': 'auto'}}
                 >
                     {renderTree(directoryTreeCache)}
                 </TreeView>
@@ -109,7 +109,8 @@ export function DirectoryListModal() {
             bg-white shadow-lg shadow-gray-300
             ring-[5px] ring-slate-50/70 rounded-lg
             flex justify-center items-center
-            p-10 overflow-auto flex flex-col"
+            py-8 px-7 overflow-auto flex flex-col
+            gap-y-5"
         >
             {content}
         </div>
