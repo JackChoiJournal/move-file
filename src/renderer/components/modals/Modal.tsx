@@ -35,12 +35,12 @@ export function DirectoryListModal() {
     let [directoryTreeCache, setDirectoryTreeCache] = useMemoryState('directoryTreeCache', []);
 
     function onError() {
-        directoryTreeCache = [
+        setDirectoryTreeCache([
             {
                 id: "0",
                 name: "No drives found",
             }
-        ];
+        ]);
     }
 
     useEffect(() => {
