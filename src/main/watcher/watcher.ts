@@ -26,31 +26,40 @@ export class WatcherHandler {
         return WatcherHandler.watchers;
     }
 
-    static start(task: TTask): void {
-        if (typeof WatcherHandler.watchers[task.source] === "undefined") {
-            WatcherHandler.watchers[task.source] = {
-                watcher: watch(task.source, {recursive: false}),
-                task: task,
-            };
-
-            WatcherHandler.watchers[task.source]?.watcher.on('change', async (evt: string, file: string) => {
-                let fileObj = path.parse(file);
-
-                if (evt === 'update' && (task.extension?.includes(fileObj.ext) || task.files?.includes(fileObj.base))) {
-                    await moveFile(file, task.destination);
-                }
-            });
-
-            WatcherHandler.watchers[task.source]?.watcher.on('error', function (error: Error) {
-                throw error;
-            });
-
-            WatcherHandler.watchers[task.source]?.watcher.on('ready', function () {
-                console.log('Watcher is ready');
-            });
-
-            console.log(`Started watching ${task.source}`);
+    /**
+     * This function is for starting a NEW watcher, if you want to update an existing watcher,
+     * use `update()` instead.
+     * If the watchers[task.source] exists, and it's a watcher then just return.
+     * @param task
+     */
+    static start(task: Task): void {
+        if (typeof WatcherHandler.watchers[task.source] !== "undefined"
+            || typeof WatcherHandler.watchers[task.source]?.watcher?.isClosed === 'function') {
+            return;
         }
+
+        WatcherHandler.watchers[task.source] = {
+            watcher: watch(task.source, {recursive: false}),
+            task: task,
+        };
+
+        WatcherHandler.watchers[task.source]?.watcher.on('change', async (evt: string, file: string) => {
+            let fileObj = path.parse(file);
+
+            if (evt === 'update' && (task.extension?.includes(fileObj.ext) || task.files?.includes(fileObj.base))) {
+                await moveFile(file, task.destination);
+            }
+        });
+
+        WatcherHandler.watchers[task.source]?.watcher.on('error', function (error: Error) {
+            throw error;
+        });
+
+        WatcherHandler.watchers[task.source]?.watcher.on('ready', function () {
+            console.log('Watcher is ready');
+        });
+
+        console.log(`Started watching ${task.source}`);
     }
 
     static close(source: string): void {
