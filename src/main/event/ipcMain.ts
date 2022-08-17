@@ -1,10 +1,10 @@
-import {TTask} from "../../@types/types";
+import {Task} from "../../@types/types";
 
 import {getDirectories, getDirectoryTree, getDrives} from "../drive/tools";
 const {ipcMain} = require('electron');
 
 ipcMain.handle('get-tasks', async () => {
-    let tasks: TTask[] = []
+    let tasks: Task[] = [];
 
     for (let [_, watcher] of Object.entries(global.shared.watcherHandler?.watchers ?? {})) {
         tasks.push(watcher.task);

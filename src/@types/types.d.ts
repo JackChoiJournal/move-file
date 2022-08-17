@@ -1,14 +1,16 @@
 import {FSWatcher} from "fs";
 
-export declare type TTask = {
-    "source": string;
-    "extension"?: string[];
-    "files"?: string[];
-    "destination": string;
+export declare class Task {
+    source: string;
+    destination: string;
+    extension?: string[];
+    files?: string[];
+
+    constructor(source: string, destination: string, extension?: string[], files?: string[])
 }
 
 export declare type TJsonTasks = {
-    data: TTask[];
+    data: Task[];
 };
 
 export declare interface Watcher extends FSWatcher {
@@ -26,7 +28,7 @@ export declare interface Watcher extends FSWatcher {
 export declare type TWatchers = {
     [source: string]: {
         watcher: Watcher;
-        task: TTask;
+        task: Task;
     };
 }
 
