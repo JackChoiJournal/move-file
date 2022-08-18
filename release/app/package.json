@@ -1,12 +1,12 @@
 {
-  "name": "group-file",
+  "name": "move-file",
   "version": "0.0.0",
-  "description": "A foundation for scalable desktop apps",
+  "description": "Move the files into the right folder",
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://github.com/JackChoiJournal/Group-File"
+    "name": "Jack Choi",
+    "email": "jackchoiprogrammer@gmail.com",
+    "url": "https://github.com/JackChoiJournal/move-file"
   },
   "main": "./dist/main/main.js",
   "scripts": {

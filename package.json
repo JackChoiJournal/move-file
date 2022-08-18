@@ -1,19 +1,19 @@
 {
-  "description": "Group your file into folder desktop apps",
+  "description": "Move the files into the right folder",
   "keywords": [
     "electron",
     "file",
     "folder",
-    "group",
-    "Automation"
+    "move",
+    "automation"
   ],
-  "homepage": "https://github.com/JackChoiJournal/Group-File",
+  "homepage": "https://github.com/JackChoiJournal/move-file",
   "bugs": {
-    "url": "https://github.com/JackChoiJournal/Group-File.git/issues"
+    "url": "https://github.com/JackChoiJournal/move-file.git/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JackChoiJournal/Group-File.git"
+    "url": "git+https://github.com/JackChoiJournal/move-file.git"
   },
   "license": "MIT",
   "author": {
